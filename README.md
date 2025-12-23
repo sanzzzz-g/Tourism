@@ -8,7 +8,7 @@ This project showcases popular travel destinations, tour packages, and a contact
 
 ## 📸 Website Preview
 
-![Tourism Website Screenshot](Tourism.png)
+![Tourism Website Screenshot](TOUR.png)
 
 ---
 

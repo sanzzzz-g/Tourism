@@ -146,28 +146,115 @@
         }
         
         .explore-btn {
-  display: inline-block;
-  width: 120px;
-  padding: 6px 0;
-  margin-top: 12px;
+          display: inline-block;
+          width: 120px;
+          padding: 6px 0;
+          margin-top: 12px;
 
-  background: #4d8ed4;
-  color: white;
-  text-decoration: none;
-  border-radius: 20px;
-  font-weight: bold;
-  font-size: 14px;
+          background: #4d8ed4;
+          color: white;
+          text-decoration: none;
+          border-radius: 20px;
+          font-weight: bold;
+          font-size: 14px;
 
-  text-align: center;
-  align-self: center;
+          text-align: center;
+          align-self: center;
+        }
+        /* Blob Cursor */
+.blob-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  filter: url('#blob');
 }
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  background: rgb(80, 137, 211);
+  opacity: 0.6;
+  will-change: transform;
+  pointer-events: none;
+}
+
+.main {
+  width: 120px;
+  height: 120px;
+}
+
+.mid {
+  width: 80px;
+  height: 80px;
+}
+
+.small {
+  width: 50px;
+  height: 50px;
+}
+
 
 
 
     </style>
 </head>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const blobs = document.querySelectorAll(".blob");
+
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+
+  const positions = Array.from(blobs).map(() => ({
+    x: mouseX,
+    y: mouseY
+  }));
+
+  document.addEventListener("mousemove", (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  function animate() {
+    positions.forEach((pos, i) => {
+      const speed = 0.15 - i * 0.03;
+
+      pos.x += (mouseX - pos.x) * speed;
+      pos.y += (mouseY - pos.y) * speed;
+
+      blobs[i].style.transform =
+        `translate(${pos.x}px, ${pos.y}px) translate(-50%, -50%)`;
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+});
+</script>
+
 
 <body>
+  <!-- Blob Cursor -->
+<div class="blob-container">
+  <svg style="position: absolute; width: 0; height: 0">
+    <filter id="blob">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="30" result="blur" />
+      <feColorMatrix
+        in="blur"
+        values="1 0 0 0 0  
+                0 1 0 0 0  
+                0 0 1 0 0  
+                0 0 0 35 -10"
+      />
+    </filter>
+  </svg>
+
+  <div class="blob main"></div>
+  <div class="blob mid"></div>
+  <div class="blob small"></div>
+</div>
     <div class="banner">
         <img src="Wetterstein_mountains_banner.jpg" alt="banner">
 
